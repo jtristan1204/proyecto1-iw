@@ -1,0 +1,312 @@
+/* ==========================================================
+   PÁGINA DE CITAS
+   Estilos exclusivos del calendario, tabla y formulario
+========================================================== */
+
+/*==========================================================
+                CONTENIDO GENERAL
+==========================================================*/
+
+/* Contenedor principal del contenido de citas */
+.contenido-citas{
+    width: 95%;
+    margin: 30px auto;
+}
+
+
+/*==========================================================
+                  FILTRO DE FECHA
+==========================================================*/
+
+/* Contenedor del filtro */
+.filtro-citas{
+    text-align: center;
+    margin: 25px 0;
+}
+
+/* Formulario del filtro */
+.form-filtro{
+    display: inline-block;
+}
+
+/* Etiqueta */
+.form-filtro label{
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Botón Mostrar Todas */
+.filtro-citas > button{
+    margin-left: 10px;
+}
+
+
+/*==========================================================
+                    CALENDARIO
+==========================================================*/
+
+/* Contenedor principal del calendario */
+.calendario-container{
+    max-width: 420px;
+    margin: 30px auto;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    overflow: hidden;
+}
+
+/* Encabezado */
+.calendario-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--azul);
+    color: var(--blanco);
+    padding: 15px;
+}
+
+/* Selectores */
+.selectores-fecha{
+    display: flex;
+    gap: 10px;
+}
+
+.selectores-fecha select{
+    background: var(--blanco);
+    color: var(--azul);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+/* Botones del calendario */
+.calendario-header button{
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+/* Cuadrícula */
+.calendario-grid{
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 3px;
+    padding: 12px;
+}
+
+
+/*==========================================================
+                  DÍAS DE LA SEMANA
+==========================================================*/
+
+.dia-semana{
+    text-align: center;
+    font-weight: bold;
+    color: var(--texto);
+    padding: 8px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.dia-semana:hover{
+    background: var(--celeste);
+}
+
+
+/*==========================================================
+                    DÍAS DEL MES
+==========================================================*/
+
+.dia-mes{
+    text-align: center;
+    padding: 12px 0;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: .3s;
+}
+
+.dia-mes:hover:not(.empty){
+    background: var(--celeste);
+}
+
+.dia-mes.empty{
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+
+/*==========================================================
+                EFECTOS DEL CALENDARIO
+==========================================================*/
+
+/* Días opacos */
+.dia-mes.dimmed{
+    opacity: .25;
+}
+
+/* Día seleccionado */
+.dia-mes.selected{
+    background: var(--azul) !important;
+    color: var(--blanco) !important;
+    border-color: var(--azul);
+    font-weight: bold;
+    transform: scale(1.05);
+    opacity: 1 !important;
+}
+
+/* Columna seleccionada */
+.dia-mes.selected-col{
+    background: var(--celeste);
+    border-color: var(--azul);
+    font-weight: bold;
+    opacity: 1 !important;
+}
+
+/* Días con citas */
+.dia-mes.tiene-cita{
+    background: var(--verde);
+    color: #137333;
+    border-color: #7fc695;
+    font-weight: bold;
+}
+
+/* Punto verde indicador */
+.dia-mes.tiene-cita::after{
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #137333;
+}
+
+/* Cambia el punto a blanco cuando está seleccionado */
+.dia-mes.tiene-cita.selected::after{
+    background: var(--blanco);
+}
+
+
+/*==========================================================
+                        TABLA
+==========================================================*/
+
+/* Contenedor de la tabla */
+.tabla-citas{
+    overflow-x: auto;
+}
+
+/* Tabla */
+table{
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--blanco);
+    margin-top: 25px;
+    border-radius: var(--radio);
+    overflow: hidden;
+    box-shadow: var(--sombra);
+}
+
+/* Encabezado */
+thead{
+    background: var(--azul);
+    color: var(--blanco);
+}
+
+th{
+    padding: 15px;
+}
+
+/* Celdas */
+td{
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--borde);
+}
+
+/* Efecto al pasar el mouse */
+tbody tr:hover{
+    background: var(--celeste);
+}
+
+
+/*==========================================================
+                BOTÓN REGISTRAR CITA
+==========================================================*/
+
+.boton-container{
+    text-align: center;
+    margin: 35px 0;
+}
+
+.btn-accion{
+    min-width: 220px;
+}
+
+
+/*==========================================================
+              FORMULARIO REGISTRAR CITA
+==========================================================*/
+
+/* Tarjeta del formulario */
+.formulario-card{
+    width: 600px;
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 35px;
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+/* Formulario */
+.formulario{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Logo */
+.logo{
+    display: block;
+    width: 120px;
+    margin: auto;
+}
+
+/* Título */
+.titulo{
+    text-align: center;
+}
+
+/* Grupo de label + input */
+.gente{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Etiquetas */
+.texto{
+    font-weight: bold;
+}
+
+/* Campos */
+.input-campo{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Botón Agendar */
+.input-sub{
+    width: 100%;
+    margin-top: 10px;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNOP - Anotaciones Clínicas</title>
+    <link rel="stylesheet" type="text/css" href="css/style1.css">
+    <link rel="stylesheet" type="text/css" href="css/psicologos.css">
+</head>
+<body>
+    <header>
+        <img class="img" src="img/fuera2.png" alt="Logotipo DNOP">
+        <form class="buscador" action="https://www.google.com/search" method="get" target="_blank">
+            <input type="text" name="q" placeholder="Buscar en Google ..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </header>
+
+    <nav>
+        <a href="home.html" title="Regresar a la página de home">Home</a> |
+        <a href="expedientes.html" title="Ver el listado de expedientes y otras funciones">Expedientes</a> |
+        <a href="citas.html" title="Ver el listado de citas">Citas</a> |
+        <a href="psicologos.html" title="Ver listado de psicólogos">Psicólogos</a> |
+        <a href="sobre_nosotros.html" title="Ver información del equipo">Sobre nosotros</a> |
+        <a href="index.html" onclick="localStorage.removeItem('dnop_user');">Cerrar Sesión</a>
+    </nav>
+
+    <section>            
+        <div class="hero">
+            <article>
+                <h1 id="tituloPaciente">Expediente Clínico del Paciente</h1>
+                <p id="detallesPaciente">
+                    Cargando información del paciente...
+                </p>
+            </article>
+            <img src="img/exp.png" class="imagenes-generales" alt="Expediente clínico">
+        </div>
+
+        <div class="tabla-container">
+            <h2>Historial de Notas y Observaciones</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Fecha y Hora</th>
+                        <th style="width: 75%;">Observación Clínica</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaNotas">
+                    <tr>
+                        <td colspan="2" style="text-align: center; padding: 20px;">Cargando notas desde Neon...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="text-align:center; margin: 25px 0;">
+                <button id="btnNuevaNota" style="padding: 10px 25px; cursor: pointer;">+ Hacer Nueva Anotación</button>
+                <button onclick="window.location.href='expedientes.html'" style="padding: 10px 20px; background:#777; color:#fff; border:none; border-radius:4px; margin-left:10px; cursor:pointer;">Regresar a Expedientes</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Dirección Nacional de Orientación Psicológica (DNOP) | Todos los derechos reservados.</p>
+        <nav>
+            <a href="home.html">Home</a> |
+            <a href="expedientes.html">Expedientes</a> |
+            <a href="citas.html">Citas</a> |
+            <a href="psicologos.html">Psicólogos</a> |
+            <a href="sobre_nosotros.html">Sobre nosotros</a> |  
+            <a href="index.html" onclick="localStorage.removeItem('dnop_user');">Cerrar Sesión</a>
+        </nav>
+    </footer>
+
+    <script src="js/notas.js"></script>
+</body>
+</html>

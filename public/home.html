@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNOP - Home</title>
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/homewelogin.css">   
+</head>
+<body>
+    <header>
+        <img class="img" src="img/fuera2.png" alt="Logotipo DNOP">
+
+        <!-- Buscador que lleva a Google -->
+        <form class="buscador" action="https://www.google.com/search" method="get" target="_blank">
+            <input type="text" name="q" placeholder="Buscar en Google ..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </header>
+
+    <!-- Navegación principal -->
+    <nav>
+        <a href="home.html" title="Regresar a la página de home">Home</a> |
+        <a href="expedientes.html" title="Ver el listado de expedientes y otras funciones">Expedientes</a> |
+        <a href="citas.html" title="Ver el listado de citas">Citas</a> |
+        <a href="psicologos.html" title="Ver listado de psicólogos">Psicólogos</a> |
+        <a href="sobre_nosotros.html" title="Ver información del equipo">Sobre nosotros</a> |
+        <a href="index.html" onclick="localStorage.removeItem('dnop_user');">Cerrar Sesión</a>
+    </nav>
+
+    <section>
+        <div class="hero">
+            <article>
+                <h2 id="saludoUsuario">Bienvenido</h2>
+                <p>
+                    Bienvenido al sistema de la Dirección Nacional de Orientación Psicológica (DNOP) de la Universidad Tecnológica de Panamá. 
+                    Esta plataforma ha sido diseñada para facilitar la gestión de expedientes, el control de citas y el acceso a información relevante, 
+                    brindando a los profesionales una herramienta que optimiza la atención y el seguimiento de los usuarios.
+                </p>
+            </article>
+            <img src="img/Home.png" class="imagenes-generales" alt="Ilustración Home">
+        </div>
+
+        <section class="noticias">  
+            <h2>Noticias e Información</h2>
+            <div class="contenedor-noticias">
+                <!-- 1ra Noticia -->
+                <div class="card">
+                    <p>29 de junio de 2026</p>
+                    <h3>Se disparan las prescripciones de psicofármacos a jóvenes y adolescentes</h3>
+                    <img src="img/noticia2jpg.jpg" alt="Psicofármacos en jóvenes">
+                    <p>
+                        Un estudio revela el aumento en la prescripción de ansiolíticos y antidepresivos
+                        en jóvenes, destacando la importancia de priorizar la atención psicológica antes
+                        del uso de medicamentos. 
+                    </p>
+                    <a href="https://elpais.com/sociedad/2026-06-29/se-disparan-las-prescripciones-de-psicofarmacos-a-jovenes-y-adolescentes-todos-queremos-resolver-los-problemas-ya.html" target="_blank">
+                        Leer más →
+                    </a>
+                </div>
+                
+                <!-- 2da Noticia -->
+                <div class="card">
+                    <p>30 de septiembre de 2025</p>
+                    <h3>Alimentación y salud mental: un vínculo que comienza antes de nacer</h3>
+                    <img src="img/noticia1.jpeg" alt="Alimentación y salud mental">
+                    <p>
+                        Expertos explican cómo una alimentación adecuada influye en el desarrollo del
+                        cerebro y en la salud mental desde las primeras etapas de la vida.
+                    </p>
+                    <a href="https://elpais.com/sociedad/2025-09-30/alimentacion-y-salud-mental-un-vinculo-que-comienza-antes-de-nacer.html" target="_blank">
+                        Leer más →
+                    </a>
+                </div>
+
+                <!-- 3ra Noticia -->
+                <div class="card">
+                    <p>12 de junio de 2026</p>
+                    <h3>Importancia de la salud mental</h3>
+                    <iframe
+                        src="https://www.youtube.com/embed/Rb6qHfCUxlM"
+                        title="Video sobre salud mental"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                    <p>
+                        Video informativo sobre la importancia de cuidar la salud mental y reconocer
+                        cuándo es necesario buscar apoyo profesional.
+                    </p>
+                    <a href="https://youtu.be/Rb6qHfCUxlM?si=3Z_U5lwMKaYegvgi" target="_blank">
+                        Ver video →
+                    </a>
+                </div>  
+            </div>
+        </section>
+    </section>
+
+    <footer>
+        <p>© 2026 Dirección Nacional de Orientación Psicológica (DNOP) | Todos los derechos reservados.</p>
+        <nav>
+            <a href="home.html">Home</a> |
+            <a href="expedientes.html">Expedientes</a> |
+            <a href="citas.html">Citas</a> |
+            <a href="psicologos.html">Psicólogos</a> |
+            <a href="sobre_nosotros.html">Sobre nosotros</a> |  
+            <a href="index.html" onclick="localStorage.removeItem('dnop_user');">Cerrar Sesión</a>
+        </nav>
+    </footer>
+
+    <script>
+        // Personalizar saludo si hay usuario logueado
+        const user = JSON.parse(localStorage.getItem('dnop_user') || 'null');
+        if (user && user.primer_nombre) {
+            document.getElementById('saludoUsuario').textContent = `Bienvenido, ${user.primer_nombre} ${user.apellido_paterno}`;
+        }
+    </script>
+</body>
+</html>

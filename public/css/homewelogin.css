@@ -1,0 +1,233 @@
+/*LOGIN*/
+
+/* Fondo de la página */
+.login-body{
+    background-color: var(--fondo);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+}
+
+/*Formulario?*/
+.login{
+
+    background-color: var(--blanco);
+    width: 420px;
+    padding: 40px;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    box-shadow: var(--sombra);
+}
+
+/*Logo*/
+.logo{
+
+    width: 140px;
+    margin: auto;
+}
+
+/*Titulo Bienvenido y demas*/
+.titulo{
+
+    text-align: center;
+
+    color: var(--azul);
+
+    margin: 0;
+}
+
+/*contendor de campos*/
+.gente{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/*==============================
+        BOTÓN LOGIN
+==============================*/
+
+.login button{
+    width:100%;
+    padding:14px;
+    background:var(--azul);
+    color:var(--blanco);
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+
+}
+
+.login button:hover{
+    background:var(--azul-hover);
+    transform:translateY(-2px);
+
+}
+
+/*==============================
+        INPUTS LOGIN
+==============================*/
+
+.input-campo{
+
+    width:100%;
+    box-sizing:border-box;
+
+}
+
+/*==============================
+        LABELS LOGIN
+==============================*/
+
+.texto{
+    font-weight:600;
+    color:var(--texto);
+}
+
+
+/*HOME*/
+
+/*Buscador*/
+
+.buscador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.buscador input{
+    width: 350px;
+}
+
+.buscador button{
+    padding: 12px 28px;
+    border: none;
+    background-color: var(--azul);
+    color: var(--blanco);
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.buscador button:hover{
+    background-color: var(--azul-hover);
+}
+
+/*============================
+       Noticero
+=============================*/
+
+.noticias{
+    margin: 40px;
+}
+
+.noticias h2{
+    color: var(--texto);
+    margin-bottom: 20px;
+}
+
+.contenedor-noticias{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+}
+
+.card{
+    background-color: var(--blanco);
+    border: 1px solid var(--border);
+    padding: 15px;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    transition: 0.3s;
+   
+}
+
+.card img{
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.card iframe{
+    width: 100%;
+    height: 200px;
+    border: none;
+    border-radius: 10px;
+}
+
+.card h3{
+    margin-top: 18px 0 10px;
+
+}
+
+.card p{
+    text-align: justify;
+    line-height: 1.5;
+}
+
+.card a{
+    color: var(--azul);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.card a:hover{
+    color: var(--sombra-hover);
+}
+
+
+/*============================
+       Sobre Nosotros                   
+=============================*/ 
+
+.equipo{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+    margin: 40px;
+}
+
+.tarjeta{
+    background-color: var(--blanco);
+    border: 1px solid var(--borde);
+    padding: 25px;
+    border-radius: var(--radio);
+    text-align: center;
+    box-shadow: var(--sombra);
+}
+
+.foto-integrante{
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+}
+
+.tarjeta h3{
+    margin-top: 15px;
+    color: var(--azul);
+}
+
+.tarjeta h4{
+    color: var(--texto);
+    margin-bottom: 15px;
+}
+
+.tarjeta p{
+    text-align: justify;
+    line-height: 1.5;
+}
+
+.tarjeta strong{
+    color: var(--azul);
+}

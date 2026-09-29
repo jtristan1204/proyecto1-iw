@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNOP - Registro de Psicólogo</title>
+    <link rel="stylesheet" type="text/css" href="css/style1.css">
+    <link rel="stylesheet" type="text/css" href="css/psicologos.css">
+</head>
+<body>
+
+<header>
+    <img src="img/fuera2.png" class="img" alt="Registro de psicólogo">
+    <!-- Buscador que lleva a google -->
+    <form class="buscador" action="https://www.google.com/search" method="get" target="_blank">
+        <input type="text" name="q" placeholder="Buscar en Google ..." required>
+        <button type="submit">Buscar</button>
+    </form>
+</header>            
+
+<nav>
+    <a href="home.html" title="Regresar a la página de home">Home</a> |
+    <a href="expedientes.html" title="Ver el listado de expedientes y otras funciones">Expedientes</a> |
+    <a href="citas.html" title="Ver el listado de citas">Citas</a> |
+    <a href="psicologos.html" title="Ver listado de psicólogos">Psicólogos</a> |
+    <a href="sobre_nosotros.html" title="Ver información del equipo">Sobre nosotros</a> |
+    <a href="index.html" onclick="localStorage.removeItem('dnop_user');">Cerrar Sesión</a>
+</nav>
+
+<section>
+    <div class="hero">
+        <article>
+            <h1>Registro De Psicólogos</h1>
+            <p>
+                Complete el siguiente formulario para registrar un nuevo especialista 
+                en el sistema. Los datos se guardarán de forma permanente en la base de datos Neon.
+            </p>
+        </article>
+        <img src="img/registarpsicologo.jpg" class="imagenes-generales" alt="Registrar psicólogo">
+    </div>
+
+    <!-- FORMULARIO -->
+    <section>
+        <div class="formulario-card">
+            <form id="formRegistroPsicologo" class="formulario">
+                <h1>Registro</h1>
+
+                <div id="mensajeAlerta" style="display:none; padding:10px 15px; margin-bottom:15px; border-radius:5px; font-weight:bold; text-align:center;"></div>
+
+                <div class="campo">
+                    <label for="user">Usuario</label>
+                    <input type="text" id="user" name="user" required>
+                </div>
+
+                <div class="campo">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div class="campo">
+                    <label for="primer_nombre">Primer nombre</label>
+                    <input type="text" id="primer_nombre" name="primer_nombre" required>
+                </div>
+
+                <div class="campo">
+                    <label for="segundo_nombre">Segundo nombre</label>
+                    <input type="text" id="segundo_nombre" name="segundo_nombre">
+                </div>
+
+                <div class="campo">
+                    <label for="primer_apellido">Primer apellido</label>
+                    <input type="text" id="primer_apellido" name="primer_apellido" required>
+                </div>
+
+                <div class="campo">
+                    <label for="segundo_apellido">Segundo apellido</label>
+                    <input type="text" id="segundo_apellido" name="segundo_apellido" required>
+                </div>
+
+                <div class="campo">
+                    <label for="cedula">Cédula</label>
+                    <input type="text" id="cedula" name="cedula" placeholder="Ej: 8-123-456" required>
+                </div>
+
+                <div class="campo">
+                    <label for="genero">Género</label>
+                    <select id="genero" name="genero" required>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Otro">Prefiero no decirlo</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="correo">Correo institucional</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+
+                <div class="campo">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" id="telefono" name="telefono" required>
+                </div>
+
+                <div class="campo">
+                    <label for="casa">Casa / Edificio</label>
+                    <input type="text" id="casa" name="casa">
+                </div>
+
+                <div class="campo">
+                    <label for="calle">Calle</label>
+                    <input type="text" id="calle" name="calle" required>
+                </div>
+
+                <div class="campo">
+                    <label for="corregimiento">Corregimiento</label>
+                    <input type="text" id="corregimiento" name="corregimiento" required>
+                </div>
+
+                <div class="campo">
+                    <label for="id_cargo">Cargo</label>
+                    <select id="id_cargo" name="id_cargo" required>
+                        <option value="1">Directora</option>
+                        <option value="2" selected>Psicólogo General</option>
+                    </select>
+                </div>
+
+                <div class="boton-container">
+                    <button type="submit" id="btnGuardar">Registrar Psicólogo</button>
+                    <button type="button" onclick="window.location.href='psicologos.html'" style="background:#777; margin-left:10px;">Cancelar</button>
+                </div>
+            </form>
+        </div> 
+    </section>
+</section>    
+
+<footer>
+    <p>&copy; 2026 Dirección Nacional de Orientación Psicológica (DNOP) | Todos los derechos reservados.</p>
+    <nav>
+        <a href="home.html">Home</a> |
+        <a href="expedientes.html">Expedientes</a> |
+        <a href="citas.html">Citas</a> |
+        <a href="psicologos.html">Psicólogos</a> |
+        <a href="sobre_nosotros.html">Sobre Nosotros</a> |
+        <a href="index.html" onclick="localStorage.removeItem('dnop_user');">Cerrar Sesión</a>
+    </nav>
+</footer>
+
+<script src="js/registro-psicologo.js"></script>
+</body>
+</html>

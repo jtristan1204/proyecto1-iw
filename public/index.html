@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNOP - Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/homewelogin.css">
+</head>
+
+<body class="login-body">
+    <section>
+        <form id="formLogin" class="login">
+            <img src="img/fuera.png" class="logo" alt="Logo DNOP">
+            <h1 class="titulo">Bienvenido</h1>
+            
+            <div id="loginError" style="display:none; color: #ff4d4d; background: rgba(255,0,0,0.1); padding: 8px 12px; border-radius: 5px; margin-bottom: 15px; font-weight: bold; text-align: center;"></div>
+
+            <div class="gente">
+                <label class="texto" for="user">Usuario</label>
+                <input type="text" id="user" name="user" class="input-campo" required autofocus>
+            </div>
+
+            <div class="gente">
+                <label class="texto" for="password">Contraseña</label>
+                <input type="password" id="password" name="password" class="input-campo" required>
+            </div>
+
+            <button type="submit" id="btnSubmit">Iniciar Sesión</button>
+        </form>
+    </section>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
