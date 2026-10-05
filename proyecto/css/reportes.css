@@ -324,15 +324,16 @@
 }
 
 .doc-badge-tipo {
-    display: inline-block;
-    padding: 2px 5px;
-    border-radius: 3px;
-    font-size: 7pt;
-    font-weight: 700;
+    display: inline;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
 }
-.badge-estudiante { background: #ebf8ff; color: #2b6cb0; }
-.badge-profesor { background: #fefcbf; color: #744210; }
-.badge-administrativo { background: #faf5ff; color: #553c9e; }
+.badge-estudiante, .badge-profesor, .badge-administrativo {
+    background: transparent;
+    color: inherit;
+}
 
 /* Lista de Notas Clínicas */
 .doc-lista-notas {

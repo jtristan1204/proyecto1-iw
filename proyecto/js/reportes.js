@@ -121,16 +121,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
             } else {
                 tablaCitas.innerHTML = citas.map(c => {
-                    const badgeClass = c.tipo_paciente === "Estudiante" 
-                        ? "badge-estudiante" 
-                        : (c.tipo_paciente === "Profesor" ? "badge-profesor" : "badge-administrativo");
-
                     return `
                         <tr>
                             <td style="font-weight: bold; color: #1a365d;">${escapeHtml(c.hora || "N/A")}</td>
                             <td>${escapeHtml(c.cedula_paciente || "N/A")}</td>
                             <td style="font-weight: 600;">${escapeHtml(c.nombre_paciente || "Sin nombre")}</td>
-                            <td><span class="doc-badge-tipo ${badgeClass}">${escapeHtml(c.tipo_paciente || "General")}</span></td>
+                            <td>${escapeHtml(c.tipo_paciente || "General")}</td>
                             <td>${escapeHtml(c.nombre_servicio || "Consulta")}</td>
                             <td>${escapeHtml(c.nombre_psicologo || "Especialista")}</td>
                         </tr>
