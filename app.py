@@ -9,36 +9,49 @@ from dotenv import load_dotenv
 # Cargar variables de entorno desde .env si existe
 load_dotenv()
 
-app = Flask(__name__, static_folder="public", static_url_path="")
+# Detectar automáticamente si la carpeta de frontend es 'proyecto' o 'public'
+_base_dir = os.path.dirname(__file__)
+static_dir = "proyecto" if os.path.exists(os.path.join(_base_dir, "proyecto")) else "public"
+app = Flask(__name__, static_folder=static_dir, static_url_path="")
 
 # ==============================================================================
 # CONEXIÓN A BASE DE DATOS (NEON POSTGRESQL O SQLITE LOCAL DE RESPALDO)
 # ==============================================================================
 def get_db():
-    db_url = os.environ.get("DATABASE_URL")
-    if db_url and db_url.startswith("postgres"):
-        import pg8000
-        # Normalizar postgres:// a postgresql:// si Render lo entrega con ese prefijo
-        parsed = urllib.parse.urlparse(db_url)
-        ssl_ctx = ssl.create_default_context()
-        conn = pg8000.connect(
-            user=parsed.username,
-            password=parsed.password,
-            host=parsed.hostname,
-            port=parsed.port or 5432,
-            database=parsed.path.lstrip("/"),
-            ssl_context=ssl_ctx
-        )
-        return conn, "postgres"
-    else:
-        # SQLite local para desarrollo inmediato sin configuración previa
-        db_path = os.path.join(os.path.dirname(__file__), "dnop_local.db")
-        init_sqlite = not os.path.exists(db_path)
-        conn = sqlite3.connect(db_path)
-        conn.row_factory = sqlite3.Row
-        if init_sqlite:
-            init_local_sqlite(conn)
-        return conn, "sqlite"
+    db_url = os.environ.get("DATABASE_URL", "").strip()
+    if db_url.startswith("jdbc:"):
+        db_url = db_url[5:]
+
+    if db_url.startswith("postgres"):
+        try:
+            import pg8000
+            parsed = urllib.parse.urlparse(db_url)
+            if not parsed.username or not parsed.password:
+                print("[AVISO] DATABASE_URL no contiene usuario/contraseña. Usando base local SQLite.")
+                raise ValueError("Falta usuario o contraseña en DATABASE_URL")
+
+            ssl_ctx = ssl.create_default_context()
+            conn = pg8000.connect(
+                user=parsed.username,
+                password=parsed.password,
+                host=parsed.hostname,
+                port=parsed.port or 5432,
+                database=parsed.path.lstrip("/"),
+                ssl_context=ssl_ctx
+            )
+            return conn, "postgres"
+        except Exception as e:
+            # Fallback seguro a SQLite local si la conexión a Neon falla
+            pass
+
+    # SQLite local para desarrollo inmediato sin configuración previa
+    db_path = os.path.join(os.path.dirname(__file__), "dnop_local.db")
+    init_sqlite = not os.path.exists(db_path)
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    if init_sqlite:
+        init_local_sqlite(conn)
+    return conn, "sqlite"
 
 def execute_query(conn, db_type, sql, params=()):
     cursor = conn.cursor()
@@ -530,6 +543,99 @@ def api_post_nota():
     finally:
         conn.close()
 
+# 10. Reporte Diario de Atenciones y Citas
+@app.route("/api/reportes/diario", methods=["GET"])
+def api_get_reporte_diario():
+    fecha = request.args.get("fecha", "").strip()
+    if not fecha:
+        fecha = datetime.now().strftime("%Y-%m-%d")
+    
+    conn, db_type = get_db()
+    try:
+        # Citas del día con detalles
+        sql_citas = """
+            SELECT c.id_cita, CAST(c.fecha AS TEXT) as fecha, c.hora, c.id_servicio, s.nombre_servicio,
+                   c.id_psicologo,
+                   COALESCE(ps.primer_nombre || ' ' || ps.apellido_paterno, 'No asignado') AS nombre_psicologo,
+                   COALESCE(e.primer_nombre || ' ' || e.apellido_paterno,
+                            pr.primer_nombre || ' ' || pr.apellido_paterno,
+                            a.primer_nombre || ' ' || a.apellido_paterno) AS nombre_paciente,
+                   COALESCE(e.cedula, pr.cedula, a.cedula) AS cedula_paciente,
+                   CASE 
+                       WHEN c.id_estudiante IS NOT NULL THEN 'Estudiante'
+                       WHEN c.id_prof IS NOT NULL THEN 'Profesor'
+                       WHEN c.id_admin IS NOT NULL THEN 'Administrativo'
+                       ELSE 'General'
+                   END AS tipo_paciente,
+                   COALESCE(car.nombre_carrera, fac.nombre_facultad, a.departamento, 'N/A') AS detalle_adscripcion
+            FROM cita c
+            LEFT JOIN servicio s ON c.id_servicio = s.id_servicio
+            LEFT JOIN psicologo ps ON c.id_psicologo = ps.id_psico
+            LEFT JOIN estudiante e ON c.id_estudiante = e.id_paciente
+            LEFT JOIN carrera car ON e.id_carrera = car.id_carrera
+            LEFT JOIN profesor pr ON c.id_prof = pr.id_paciente
+            LEFT JOIN facultad fac ON pr.id_facultad = fac.id_facultad
+            LEFT JOIN administrativo a ON c.id_admin = a.id_paciente
+            WHERE CAST(c.fecha AS TEXT) LIKE %s
+            ORDER BY c.hora ASC
+        """
+        cur = execute_query(conn, db_type, sql_citas, (f"{fecha}%",))
+        citas = fetchall_dict(cur)
+
+        # Notas u observaciones registradas en la fecha
+        sql_notas = """
+            SELECT n.id_nota, CAST(n.fecha_creacion AS TEXT) as fecha_creacion, n.observacion,
+                   COALESCE(e.primer_nombre || ' ' || e.apellido_paterno,
+                            pr.primer_nombre || ' ' || pr.apellido_paterno,
+                            a.primer_nombre || ' ' || a.apellido_paterno) AS nombre_paciente,
+                   COALESCE(e.cedula, pr.cedula, a.cedula) AS cedula_paciente,
+                   COALESCE(ps.primer_nombre || ' ' || ps.apellido_paterno, 'Especialista') AS psicologo_nota
+            FROM nota n
+            LEFT JOIN estudiante e ON n.id_estudiante = e.id_paciente
+            LEFT JOIN profesor pr ON n.id_prof = pr.id_paciente
+            LEFT JOIN administrativo a ON n.id_admin = a.id_paciente
+            LEFT JOIN psicologo ps ON n.id_psico = ps.id_psico
+            WHERE CAST(n.fecha_creacion AS TEXT) LIKE %s
+            ORDER BY n.fecha_creacion ASC
+        """
+        cur_notas = execute_query(conn, db_type, sql_notas, (f"{fecha}%",))
+        notas = fetchall_dict(cur_notas)
+
+        # Resumen / Métricas estadísticas
+        total_citas = len(citas)
+        estudiantes = sum(1 for c in citas if c.get("tipo_paciente") == "Estudiante")
+        profesores = sum(1 for c in citas if c.get("tipo_paciente") == "Profesor")
+        administrativos = sum(1 for c in citas if c.get("tipo_paciente") == "Administrativo")
+
+        # Conteo por servicio
+        servicios_count = {}
+        for c in citas:
+            srv = c.get("nombre_servicio") or "Sin especificar"
+            servicios_count[srv] = servicios_count.get(srv, 0) + 1
+
+        # Conteo por psicólogo
+        psicologos_count = {}
+        for c in citas:
+            psi = c.get("nombre_psicologo") or "No asignado"
+            psicologos_count[psi] = psicologos_count.get(psi, 0) + 1
+
+        return jsonify({
+            "fecha": fecha,
+            "metricas": {
+                "total_citas": total_citas,
+                "estudiantes": estudiantes,
+                "profesores": profesores,
+                "administrativos": administrativos,
+                "servicios": servicios_count,
+                "psicologos": psicologos_count,
+                "total_notas": len(notas)
+            },
+            "citas": citas,
+            "notas": notas
+        })
+    finally:
+        conn.close()
+
 # ==============================================================================
 # ENRUTADOR DE ARCHIVOS ESTÁTICOS
 # ==============================================================================
@@ -549,8 +655,15 @@ def static_proxy(path):
 # ==============================================================================
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
+    test_conn, db_type = get_db()
+    test_conn.close()
+
     print(f"==================================================")
     print(f" Servidor DNOP activo en http://localhost:{port}")
-    print(f" Base de Datos: {'Neon (PostgreSQL)' if os.environ.get('DATABASE_URL') else 'SQLite local (dnop_local.db)'}")
+    if db_type == "postgres":
+        print(f" Base de Datos: CONECTADO A NEON (PostgreSQL)")
+    else:
+        print(f" Base de Datos: LOCAL (SQLite - dnop_local.db)")
+        print(f" [Aviso] Para conectar a Neon, define tu DATABASE_URL completa con usuario y clave.")
     print(f"==================================================")
     app.run(host="0.0.0.0", port=port, debug=True)

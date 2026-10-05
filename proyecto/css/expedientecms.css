@@ -1,0 +1,259 @@
+/*==============================
+    FORMULARIO EXPEDIENTES
+==============================*/
+
+.formulario-expediente{
+
+    width:90%;
+    max-width:1100px;
+    margin:35px auto;
+    background:var(--blanco);
+    padding:35px;
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+/* Títulos de las secciones */
+
+.formulario-expediente h2{
+    grid-column: 1 / -1;
+    margin-bottom: 10px;
+}
+
+/* Labels */
+
+.formulario-expediente label{
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--texto);
+}
+
+/* Inputs */
+
+.formulario-expediente input,
+.formulario-expediente select{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Cada grupo */
+
+.formulario-expediente > div{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Línea divisoria */
+
+.formulario-expediente hr{
+    grid-column: 1 / -1;
+    border: none;
+    border-top: 1px solid var(--borde);
+    margin: 15px 0;
+}
+
+/*==============================
+      BLOQUES DINÁMICOS
+==============================*/
+
+#estudiante,
+#profesor,
+#administrativo{
+
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    padding: 25px;
+    border: 1px solid var(--borde);
+    border-radius: 15px;
+    background: var(--gris);
+}
+
+#estudiante label,
+#profesor label,
+#administrativo label{
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+#estudiante input,
+#estudiante select,
+#profesor input,
+#profesor select,
+#administrativo input,
+#administrativo select{
+    flex: 1;
+    min-width: 250px;
+}
+
+/*==============================
+        BOTÓN
+==============================*/
+
+.formulario-expediente button{
+
+    grid-column: 1 / -1;
+
+    width: 230px;
+    margin: 20px auto 0;
+
+    background: var(--azul);
+    color: var(--blanco);
+
+    border: none;
+    border-radius: 30px;
+
+    cursor: pointer;
+    font-weight: bold;
+
+    transition: .3s;
+}
+
+/*==========================================================
+                HACER ANOTACIONES
+==========================================================*/
+
+/* Formulario */
+
+.formulario-anotacion{
+
+    width: 90%;
+    max-width: 100px;
+
+    margin: 45px auto;
+}
+
+/* Caja principal */
+
+.formulario-anotacion fieldset{
+
+    background: var(--blanco);
+
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+
+    padding: 40px;
+
+    box-shadow: var(--sombra);
+}
+
+/* Título */
+
+.formulario-anotacion legend{
+
+    padding: 0 10px;
+
+    font-weight: bold;
+
+    color: var(--texto);
+}
+
+/* Grupo */
+
+.formulario-anotacion .campo{
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+/* Etiqueta */
+
+.formulario-anotacion label{
+    font-weight: bold;
+}
+
+/* Área de texto */
+
+.formulario-anotacion textarea{
+
+    width: 100%;
+
+    min-height: 220px;
+
+    resize: vertical;
+
+    box-sizing: border-box;
+}
+
+/* Botón */
+
+.formulario-anotacion .submit{
+
+    width: 220px;
+}
+
+
+/*==========================================================
+                    BÚSQUEDA
+==========================================================*/
+
+/* Contenedor del buscador */
+.busqueda{
+    text-align: center;
+    margin: 30px 0;
+}
+
+/* Formulario del buscador */
+.busqueda form{
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Campo de búsqueda */
+.busqueda input{
+    width: 350px;
+}
+
+
+/*==========================================================
+                    TABLA DE EXPEDIENTES
+==========================================================*/
+
+/* Contenedor de la tabla */
+.tabla-container{
+    width: 95%;
+    margin: auto;
+    overflow-x: auto;
+}
+
+/* Tabla */
+.tabla-container table{
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--blanco);
+    border-radius: var(--radio);
+    overflow: hidden;
+    box-shadow: var(--sombra);
+}
+
+/* Encabezados */
+.tabla-container th{
+    background: var(--azul);
+    color: var(--blanco);
+    padding: 15px;
+}
+
+/* Celdas */
+.tabla-container td{
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--borde);
+}
+
+/* Efecto al pasar el mouse */
+.tabla-container tbody tr:hover{
+    background: var(--celeste);
+}

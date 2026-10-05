@@ -1,0 +1,226 @@
+/*General del css*/
+
+:root{
+    --fondo: #F7FAFC;
+    --blanco: #FFFFFF;
+
+    /* Color institucional */
+    --azul: #2A8AA3;
+    --azul-hover: #1F6D80;
+
+    /*apoyo */
+    --celeste: #DDF4F8;
+    --verde: #EEF9F3;
+    --gris: #EEF2F5;
+
+    --texto: #2B3445;
+    --texto-claro: #5F6C7B;
+
+    --borde: #D9E5EC;
+
+    /* Sombras */
+    --sombra: 0 8px 20px rgba(0,0,0,.06);
+    --sombra-hover: 0 12px 25px rgba(0,0,0,.10);
+
+    /* Bordes redondeados */
+    --radio: 20px;
+}
+
+body{
+    background-color: var(--fondo);
+    color: var(--texto);
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+
+/*Titulo en general*/
+h1,h2,h3,h4{
+    font-family: 'Merriweather', serif;
+    color: var(--texto);
+}
+
+/*Parrafos y enlaces en general*/
+p{
+    color: var(--texto-claro);
+    line-height: 1.6;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+ul{
+    list-style: none;
+}
+
+/*Formularios*/
+input, button, select, textarea{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+
+input,
+select,
+textarea{
+    padding: 12px 16px;
+    border: 1px solid var(--borde);
+    border-radius: 30px;
+    outline: none;
+    transition: .3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(42,138,163,.15);
+}
+
+/*Header por defecto - donde esta el menu y el logo*/
+header{
+    background-color: var(--blanco);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 12px var(--sombra);
+    padding: 15px 45px;
+}
+
+/*img de logo*/
+.img{
+    width: 180px;
+    height: auto;
+}
+
+/*El nav*/
+
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    background: var(--azul);
+    padding: 18px;
+}
+
+nav a{
+    color: var(--blanco);
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav a:hover{
+    color: var(--celeste);
+    transition: 0.3s;
+}
+
+/*Banner co nombre y descripcion e imagen xd*/
+.hero{
+    background:linear-gradient(
+        135deg,
+        #DDF4F8,
+        #BEE8EF
+    );
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap: 60px;
+    align-items: center;
+
+    background: linear-gradient(135deg, #F8FDFF,#DDF4F8 );
+    margin: 30px;
+    padding: 40px;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+.hero article{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.hero p{
+    font-size: 20px;
+    line-height: 1.8;
+    color: var(--texto-claro);
+}
+
+.imagenes-generales{
+    width: 320%;
+    max-width: 100%;
+    margin: auto;
+}
+
+
+
+/*footer y nav de abajo*/
+footer{
+    background: var(--azul);
+    color: var(--blanco);
+    text-align: center;
+    padding: 30px;
+    margin-top: 40px;
+}
+
+footer nav {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    background:transparent;
+    padding: 20px 0 0 0;
+}
+
+footer a{
+    color: var(--blanco);
+}
+
+footer p{
+    color: var(--blanco);
+}
+
+
+/*Para botones*/
+/* Botones generales */
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"]{
+    background-color: var(--azul);
+    color: var(--blanco);
+    border: none;
+    border-radius: 30px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover{
+    background-color: var(--azul-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-hover);
+}
+
+button:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+input[type="reset"]:active{
+    transform: translateY(0);
+}
+
+button:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+input[type="reset"]:disabled{
+    background-color: var(--borde);
+    color: var(--texto-claro);
+    cursor: not-allowed;
+    box-shadow: none;
+}

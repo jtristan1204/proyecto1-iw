@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNOP - Reporte Diario de Atenciones</title>
+    <link rel="stylesheet" href="css/style1.css">
+    <link rel="stylesheet" href="css/reportes.css">
+    <!-- html2pdf.js para exportar documentos PDF con alta calidad -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <!-- Encabezado general de la app -->
+    <header>
+        <img class="img" src="img/fuera2.png" alt="Logotipo DNOP">
+        <form class="buscador" action="https://www.google.com/search" method="get" target="_blank">
+            <input type="text" name="q" placeholder="Buscar en Google ..." required>
+            <button type="submit">Buscar</button>
+        </form>
+    </header>
+
+    <!-- Menú de Navegación -->
+    <nav>
+        <a href="home.html" title="Regresar a la página de home">Home</a> |
+        <a href="expedientes.html" title="Ver el listado de expedientes">Expedientes</a> |
+        <a href="citas.html" title="Ver el listado de citas">Citas</a> |
+        <a href="psicologos.html" title="Ver listado de psicólogos">Psicólogos</a> |
+        <a href="reportes.html" style="font-weight: bold; text-decoration: underline;" title="Módulo de reportes">Reportes</a> |
+        <a href="sobre_nosotros.html" title="Ver información del equipo">Sobre nosotros</a> |
+        <a href="index.html" onclick="localStorage.removeItem('dnop_user');">Cerrar Sesión</a>
+    </nav>
+
+    <section>
+        <!-- Hero Informativo -->
+        <div class="hero">
+            <article>
+                <h1>Reporte Diario de Atenciones</h1>
+                <p>
+                    Genere, visualice e imprima el informe diario oficial de citas y consultas psicológicas 
+                    brindadas a la comunidad universitaria. Descargue el reporte en formato PDF listo para archivo institucional.
+                </p>
+            </article>
+            <img src="img/exp.png" class="imagenes-generales" alt="Reportes">
+        </div>
+
+        <!-- Barra de Filtros y Botones de Exportación (0 Emojis) -->
+        <div class="filtros-reporte">
+            <div class="filtros-grupo">
+                <label for="inputFecha">Fecha del Informe:</label>
+                <input type="date" id="inputFecha">
+                <button type="button" class="btn-rapido activo" id="btnHoy">Hoy</button>
+                <button type="button" class="btn-rapido" id="btnAyer">Ayer</button>
+                <button type="button" class="btn-rapido" id="btnConsultar" style="background:#2b6cb0; color:#fff; border-color:#2b6cb0;">Consultar</button>
+            </div>
+
+            <div class="acciones-reporte">
+                <button type="button" class="btn-pdf" id="btnDescargarPDF">
+                    Descargar PDF
+                </button>
+                <button type="button" class="btn-print" id="btnImprimir">
+                    Imprimir
+                </button>
+            </div>
+        </div>
+
+        <!-- Métricas Rápidas en Pantalla (KPIs sin bordes de colores) -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <span class="kpi-titulo">Total de Citas</span>
+                <span class="kpi-valor" id="kpiTotal">0</span>
+                <span class="kpi-sub">Programadas para el día</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-titulo">Estudiantes</span>
+                <span class="kpi-valor" id="kpiEstudiantes">0</span>
+                <span class="kpi-sub">Atenciones estudiantiles</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-titulo">Docentes y Admin</span>
+                <span class="kpi-valor" id="kpiDocAdmin">0</span>
+                <span class="kpi-sub">Personal universitario</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-titulo">Notas Clínicas</span>
+                <span class="kpi-valor" id="kpiNotas">0</span>
+                <span class="kpi-sub">Registradas en la fecha</span>
+            </div>
+        </div>
+
+        <!-- =======================================================
+             VISTA PREVIA DEL DOCUMENTO OFICIAL (CENTRADO A4 PARA PDF)
+             ======================================================= -->
+        <div class="documento-wrap">
+            <div class="hoja-sombra-wrapper">
+                <div class="hoja-imprimible" id="hojaReporte">
+                    
+                    <!-- Encabezado Institucional con Logotipo -->
+                    <div class="doc-header">
+                        <img src="img/fuera2.png" class="doc-logo" alt="Logotipo Institucional DNOP">
+                        <div class="doc-titulos">
+                            <p class="doc-univ">Universidad Tecnológica de Panamá</p>
+                            <p class="doc-dept">Dirección Nacional de Orientación Psicológica (DNOP)</p>
+                            <p class="doc-sub">Sistema de Gestión Clínica y Seguimiento Psicológico</p>
+                        </div>
+                    </div>
+
+                    <!-- Título del Documento -->
+                    <div class="doc-titulo-banner">
+                        INFORME DIARIO DE ATENCIÓN Y CONTROL DE CITAS
+                    </div>
+
+                    <!-- Metadatos del Informe -->
+                    <div class="doc-meta-grid">
+                        <div class="doc-meta-item">
+                            <strong>Fecha del Reporte:</strong> <span id="metaFechaTexto">-</span>
+                        </div>
+                        <div class="doc-meta-item">
+                            <strong>Hora de Emisión:</strong> <span id="metaHoraEmision">-</span>
+                        </div>
+                        <div class="doc-meta-item">
+                            <strong>Generado por:</strong> <span id="metaEspecialista">-</span>
+                        </div>
+                        <div class="doc-meta-item">
+                            <strong>Estado del Día:</strong> <span id="metaEstado" style="color: #2b6cb0; font-weight: bold;">Registro Oficial</span>
+                        </div>
+                    </div>
+
+                    <!-- Resumen Cuantitativo -->
+                    <div class="doc-seccion-titulo">1. Resumen Cuantitativo de la Jornada</div>
+                    <table class="doc-resumen-tabla">
+                        <tbody>
+                            <tr>
+                                <td class="etiqueta">Total Citas Registradas:</td>
+                                <td id="resumenTotalCitas" style="font-weight: bold;">0</td>
+                                <td class="etiqueta">Estudiantes Atendidos:</td>
+                                <td id="resumenEstudiantes">0</td>
+                            </tr>
+                            <tr>
+                                <td class="etiqueta">Docentes Atendidos:</td>
+                                <td id="resumenDocentes">0</td>
+                                <td class="etiqueta">Administrativos:</td>
+                                <td id="resumenAdmin">0</td>
+                            </tr>
+                            <tr>
+                                <td class="etiqueta">Desglose por Servicio:</td>
+                                <td colspan="3" id="resumenServicios">Consulta Inicial (0) | Seguimiento (0) | Orientación (0)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Tabla Detallada de Citas del Día -->
+                    <div class="doc-seccion-titulo">2. Relación Detallada de Pacientes Citados</div>
+                    <table class="doc-tabla-citas">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">Hora</th>
+                                <th style="width: 16%;">Cédula</th>
+                                <th style="width: 26%;">Paciente</th>
+                                <th style="width: 14%;">Tipo</th>
+                                <th style="width: 18%;">Servicio</th>
+                                <th style="width: 16%;">Especialista</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaReporteCitas">
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 15px; color: #718096;">
+                                    Cargando información de la fecha...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Observaciones y Notas Clínicas del Día -->
+                    <div class="doc-seccion-titulo">3. Observaciones y Notas Clínicas Registradas</div>
+                    <ul class="doc-lista-notas" id="listaReporteNotas">
+                        <li style="color: #718096; font-style: italic;">No se registraron notas de evolución clínica en esta fecha.</li>
+                    </ul>
+
+                    <!-- Bloque de Firmas Institucionales -->
+                    <div class="doc-firmas">
+                        <div class="doc-firma-caja">
+                            <div class="doc-linea-firma"></div>
+                            <div class="doc-firma-cargo" id="firmaPsicologoNombre">Psicólogo(a) de Turno</div>
+                            <div class="doc-firma-sub">Especialista en Orientación Psicológica</div>
+                        </div>
+                        <div class="doc-firma-caja">
+                            <div class="doc-linea-firma"></div>
+                            <div class="doc-firma-cargo">Dirección Nacional DNOP</div>
+                            <div class="doc-firma-sub">Universidad Tecnológica de Panamá</div>
+                        </div>
+                    </div>
+
+                    <!-- Pie de Página Oficial del Documento -->
+                    <div class="doc-pie">
+                        <span>Documento oficial de control interno - Dirección Nacional de Orientación Psicológica</span>
+                        <span>Página 1 de 1</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de página general del sitio web -->
+    <footer>
+        <p>© 2026 Dirección Nacional de Orientación Psicológica (DNOP) | Todos los derechos reservados.</p>
+        <nav>
+            <a href="home.html">Home</a> |
+            <a href="expedientes.html">Expedientes</a> |
+            <a href="citas.html">Citas</a> |
+            <a href="psicologos.html">Psicólogos</a> |
+            <a href="reportes.html">Reportes</a> |
+            <a href="sobre_nosotros.html">Sobre Nosotros</a> |
+            <a href="index.html" onclick="localStorage.removeItem('dnop_user');">Cerrar Sesión</a>
+        </nav>
+    </footer>
+
+    <!-- Script de lógica de Reportes y Generación de PDF -->
+    <script src="js/reportes.js"></script>
+</body>
+</html>

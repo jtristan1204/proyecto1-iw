@@ -1,0 +1,169 @@
+/**
+ * =========================
+ *  Busqueda
+ * =========================
+ */
+
+ .busqueda{
+
+    background:var(--blanco);
+    margin-bottom:30px;
+    padding:25px;
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+
+}
+
+.busqueda form{
+    display:flex;
+    gap:15px;
+    align-items:center;
+
+}
+
+.busqueda input{
+
+    flex:1;
+
+}
+
+/* =========================
+ *  Tabla de resultados
+ * =========================
+ */
+
+.tabla-container{
+    background:var(--blanco);
+    margin:30px;
+    padding:25px;
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+
+}
+
+.tabla-container table{
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+/*Cabecera xd*/
+.tabla-container thead{
+    background:var(--azul);
+    color:white;
+
+}
+
+.tabla-container th{
+    padding:16px;
+
+}
+
+.tabla-container td{
+    padding:14px;
+    border-bottom:1px solid var(--borde);
+
+}
+
+.tabla-container tbody tr:hover{
+    background:var(--celeste);
+}
+
+
+
+/* =========================
+   BOTÓN
+========================= */
+button{
+
+    border-radius:30px;
+
+}
+
+.boton-container{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin:25px 30px;
+
+}
+
+
+
+
+/*Rehistro de Psicologo */
+
+/*==============================
+        CONTENEDOR
+==============================*/
+
+.formulario-card{
+
+    background:var(--blanco);
+
+    padding:35px;
+
+    border-radius:var(--radio);
+
+    box-shadow:var(--sombra);
+
+}
+
+.formulario-card h2{
+
+    margin-bottom:30px;
+
+    text-align:center;
+
+    color:var(--azul);
+
+}
+
+.formulario{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:22px;
+
+}
+
+.campo{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.campo label{
+
+    font-weight:600;
+
+}
+
+/* Campos */
+
+.campo input,
+.campo select{
+
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+/* Contenedor del botón */
+
+.formulario .boton-container{
+
+    grid-column: 1 / -1;
+
+    justify-content: center;
+
+    margin-top: 15px;
+}

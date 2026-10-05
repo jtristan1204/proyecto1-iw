@@ -1,0 +1,432 @@
+/* ==========================================================
+   ESTILOS PARA EL MÓDULO DE REPORTES - DNOP
+   ========================================================== */
+
+/* Barra de Filtros y Acciones */
+.filtros-reporte {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin: 20px auto;
+    max-width: 1050px;
+}
+
+.filtros-grupo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filtros-grupo label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.filtros-grupo input[type="date"] {
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #334155;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.filtros-grupo input[type="date"]:focus {
+    border-color: #3182ce;
+}
+
+.btn-rapido {
+    background: #edf2f7;
+    color: #4a5568;
+    border: 1px solid #cbd5e0;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-rapido:hover {
+    background: #e2e8f0;
+    color: #1a202c;
+}
+
+.btn-rapido.activo {
+    background: #2b6cb0;
+    color: #ffffff;
+    border-color: #2b6cb0;
+}
+
+/* Botones de acción principales (0 Emojis) */
+.acciones-reporte {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-pdf {
+    background: #c53030;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-pdf:hover {
+    background: #9b2c2c;
+}
+
+.btn-print {
+    background: #2b6cb0;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.btn-print:hover {
+    background: #2c5282;
+}
+
+/* Contenedor de Tarjetas KPI en Pantalla (Sin bordes laterales de colores) */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 15px;
+    max-width: 1050px;
+    margin: 0 auto 25px auto;
+}
+
+.kpi-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+}
+
+.kpi-titulo {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #718096;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.kpi-valor {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 5px 0;
+}
+
+.kpi-sub {
+    font-size: 0.82rem;
+    color: #a0aec0;
+}
+
+/* ==========================================================
+   HOJA DEL DOCUMENTO (DISEÑO OFICIAL A4 CENTRADO PARA PANTALLA Y PDF)
+   ========================================================== */
+.documento-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 25px 15px;
+    background: #edf2f7;
+    margin-bottom: 40px;
+    overflow-x: auto;
+}
+
+.hoja-sombra-wrapper {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    border-radius: 2px;
+    background: #ffffff;
+    margin: 0 auto;
+}
+
+.hoja-imprimible {
+    width: 210mm;
+    min-height: 297mm;
+    background: #ffffff;
+    padding: 16mm 16mm;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #1a202c;
+    position: relative;
+    box-shadow: none !important;
+}
+
+/* Encabezado Institucional */
+.doc-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #1a365d;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    gap: 15px;
+}
+
+.doc-logo {
+    height: 75px;
+    width: auto;
+    object-fit: contain;
+}
+
+.doc-titulos {
+    flex: 1;
+    text-align: center;
+}
+
+.doc-univ {
+    font-size: 13pt;
+    font-weight: 800;
+    color: #1a365d;
+    letter-spacing: 0.6px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.doc-dept {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #2b6cb0;
+    margin: 3px 0 0 0;
+    text-transform: uppercase;
+}
+
+.doc-sub {
+    font-size: 9pt;
+    color: #4a5568;
+    margin: 3px 0 0 0;
+}
+
+/* Título del Reporte y Metadatos */
+.doc-titulo-banner {
+    background: #1a365d;
+    color: #ffffff;
+    text-align: center;
+    padding: 7px;
+    border-radius: 4px;
+    font-size: 11pt;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.doc-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 8.5pt;
+    row-gap: 5px;
+}
+
+.doc-meta-item strong {
+    color: #2d3748;
+}
+
+/* Resumen Estadístico en Documento */
+.doc-seccion-titulo {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #1a365d;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid #cbd5e0;
+    padding-bottom: 3px;
+    margin: 15px 0 8px 0;
+}
+
+.doc-resumen-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+    font-size: 8.5pt;
+    table-layout: fixed;
+    box-sizing: border-box;
+}
+
+.doc-resumen-tabla td {
+    padding: 6px 10px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+}
+
+.doc-resumen-tabla td.etiqueta {
+    font-weight: 700;
+    background: #f8fafc;
+    color: #2d3748;
+    width: 35%;
+}
+
+/* Tabla de Citas Oficial */
+.doc-tabla-citas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8pt;
+    margin-bottom: 18px;
+    table-layout: fixed;
+    box-sizing: border-box;
+}
+
+.doc-tabla-citas th {
+    background: #2b6cb0;
+    color: #ffffff;
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 700;
+    border: 1px solid #2b6cb0;
+    text-transform: uppercase;
+    font-size: 7.5pt;
+    box-sizing: border-box;
+}
+
+.doc-tabla-citas td {
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+    color: #2d3748;
+    box-sizing: border-box;
+    word-break: break-word;
+}
+
+.doc-tabla-citas tr:nth-child(even) td {
+    background: #f8fafc;
+}
+
+.doc-badge-tipo {
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 7pt;
+    font-weight: 700;
+}
+.badge-estudiante { background: #ebf8ff; color: #2b6cb0; }
+.badge-profesor { background: #fefcbf; color: #744210; }
+.badge-administrativo { background: #faf5ff; color: #553c9e; }
+
+/* Lista de Notas Clínicas */
+.doc-lista-notas {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px 0;
+    font-size: 8pt;
+}
+
+.doc-item-nota {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 6px 10px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+}
+
+.doc-item-nota-header {
+    font-weight: 700;
+    color: #2b6cb0;
+    margin-bottom: 3px;
+}
+
+/* Bloque de Firmas */
+.doc-firmas {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 35px;
+    padding-top: 15px;
+}
+
+.doc-firma-caja {
+    text-align: center;
+    width: 40%;
+}
+
+.doc-linea-firma {
+    border-top: 1px solid #4a5568;
+    margin-bottom: 6px;
+}
+
+.doc-firma-cargo {
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.doc-firma-sub {
+    font-size: 7.5pt;
+    color: #718096;
+}
+
+/* Pie de Página Oficial */
+.doc-pie {
+    margin-top: 25px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+    font-size: 7pt;
+    color: #718096;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ==========================================================
+   REGLAS PARA IMPRESIÓN (CTRL + P)
+   ========================================================== */
+@media print {
+    body {
+        background: #ffffff !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    header, nav, footer, .hero, .filtros-reporte, .kpi-grid, .acciones-reporte, .buscador {
+        display: none !important;
+    }
+
+    .documento-wrap {
+        padding: 0 !important;
+        background: transparent !important;
+        margin: 0 !important;
+    }
+
+    .hoja-sombra-wrapper {
+        box-shadow: none !important;
+        background: transparent !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .hoja-imprimible {
+        box-shadow: none !important;
+        width: 100% !important;
+        padding: 10mm 12mm !important;
+        min-height: auto !important;
+    }
+}

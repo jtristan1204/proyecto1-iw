@@ -6,8 +6,10 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
+const fs = require('fs');
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+const staticDir = fs.existsSync(path.join(__dirname, 'proyecto')) ? 'proyecto' : 'public';
+app.use(express.static(path.join(__dirname, staticDir)));
 
 // Pool de conexión a Neon PostgreSQL
 const pool = process.env.DATABASE_URL
@@ -282,6 +284,96 @@ app.post('/api/notas', async (req, res) => {
         res.json({ success: true });
     } catch (err) {
         res.status(400).json({ success: false, error: err.message });
+    }
+});
+
+// 10. Reporte Diario
+app.get('/api/reportes/diario', async (req, res) => {
+    try {
+        const fecha = req.query.fecha || new Date().toISOString().substring(0, 10);
+        
+        // Citas del día
+        const sqlCitas = `
+            SELECT c.id_cita, TO_CHAR(c.fecha, 'YYYY-MM-DD') as fecha, c.hora, c.id_servicio, s.nombre_servicio,
+                   c.id_psicologo,
+                   COALESCE(ps.primer_nombre || ' ' || ps.apellido_paterno, 'No asignado') AS nombre_psicologo,
+                   COALESCE(e.primer_nombre || ' ' || e.apellido_paterno,
+                            pr.primer_nombre || ' ' || pr.apellido_paterno,
+                            a.primer_nombre || ' ' || a.apellido_paterno) AS nombre_paciente,
+                   COALESCE(e.cedula, pr.cedula, a.cedula) AS cedula_paciente,
+                   CASE 
+                       WHEN c.id_estudiante IS NOT NULL THEN 'Estudiante'
+                       WHEN c.id_prof IS NOT NULL THEN 'Profesor'
+                       WHEN c.id_admin IS NOT NULL THEN 'Administrativo'
+                       ELSE 'General'
+                   END AS tipo_paciente,
+                   COALESCE(car.nombre_carrera, fac.nombre_facultad, a.departamento, 'N/A') AS detalle_adscripcion
+            FROM cita c
+            LEFT JOIN servicio s ON c.id_servicio = s.id_servicio
+            LEFT JOIN psicologo ps ON c.id_psicologo = ps.id_psico
+            LEFT JOIN estudiante e ON c.id_estudiante = e.id_paciente
+            LEFT JOIN carrera car ON e.id_carrera = car.id_carrera
+            LEFT JOIN profesor pr ON c.id_prof = pr.id_paciente
+            LEFT JOIN facultad fac ON pr.id_facultad = fac.id_facultad
+            LEFT JOIN administrativo a ON c.id_admin = a.id_paciente
+            WHERE TO_CHAR(c.fecha, 'YYYY-MM-DD') = $1
+            ORDER BY c.hora ASC
+        `;
+        const citasRes = await query(sqlCitas, [fecha]);
+        const citas = citasRes.rows;
+
+        // Notas del día
+        const sqlNotas = `
+            SELECT n.id_nota, TO_CHAR(n.fecha_creacion, 'YYYY-MM-DD HH24:MI') as fecha_creacion, n.observacion,
+                   COALESCE(e.primer_nombre || ' ' || e.apellido_paterno,
+                            pr.primer_nombre || ' ' || pr.apellido_paterno,
+                            a.primer_nombre || ' ' || a.apellido_paterno) AS nombre_paciente,
+                   COALESCE(e.cedula, pr.cedula, a.cedula) AS cedula_paciente,
+                   COALESCE(ps.primer_nombre || ' ' || ps.apellido_paterno, 'Especialista') AS psicologo_nota
+            FROM nota n
+            LEFT JOIN estudiante e ON n.id_estudiante = e.id_paciente
+            LEFT JOIN profesor pr ON n.id_prof = pr.id_paciente
+            LEFT JOIN administrativo a ON n.id_admin = a.id_paciente
+            LEFT JOIN psicologo ps ON n.id_psico = ps.id_psico
+            WHERE TO_CHAR(n.fecha_creacion, 'YYYY-MM-DD') = $1
+            ORDER BY n.fecha_creacion ASC
+        `;
+        const notasRes = await query(sqlNotas, [fecha]);
+        const notas = notasRes.rows;
+
+        const total_citas = citas.length;
+        const estudiantes = citas.filter(c => c.tipo_paciente === 'Estudiante').length;
+        const profesores = citas.filter(c => c.tipo_paciente === 'Profesor').length;
+        const administrativos = citas.filter(c => c.tipo_paciente === 'Administrativo').length;
+
+        const servicios_count = {};
+        citas.forEach(c => {
+            const srv = c.nombre_servicio || 'Sin especificar';
+            servicios_count[srv] = (servicios_count[srv] || 0) + 1;
+        });
+
+        const psicologos_count = {};
+        citas.forEach(c => {
+            const psi = c.nombre_psicologo || 'No asignado';
+            psicologos_count[psi] = (psicologos_count[psi] || 0) + 1;
+        });
+
+        res.json({
+            fecha,
+            metricas: {
+                total_citas,
+                estudiantes,
+                profesores,
+                administrativos,
+                servicios: servicios_count,
+                psicologos: psicologos_count,
+                total_notas: notas.length
+            },
+            citas,
+            notas
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 
